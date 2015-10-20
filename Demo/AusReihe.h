@@ -27,4 +27,5 @@ public:
 	int m_selection;
 	BOOL m_xraster;
 	BOOL m_yraster;
+	afx_msg void OnClose();
 };

@@ -272,9 +272,7 @@ void CMainFrame::OnUpdateEingabeTestdatren(CCmdUI *pCmdUI)
 
 void CMainFrame::OnAusgabeDatenreihe()
 {
-	AusReihe ar;
-	//TODO: Non-Modal
-	ar.DoModal();
+	new AusReihe; //nicht modaler Aufruf. Klasse selbst greift auf close-Methode zurück
 }
 
 

@@ -85,7 +85,7 @@ BOOL EinReihe::OnInitDialog()
 				  // AUSNAHME: OCX-Eigenschaftenseite muss FALSE zurückgeben.
 }
 
-//TODO: Fix EnableWindow for plus and minus
+
 void EinReihe::on_row_changed(int row)
 {
 	UpdateData(TRUE);
