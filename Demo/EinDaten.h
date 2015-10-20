@@ -1,4 +1,5 @@
 #pragma once
+#include "afxwin.h"
 
 
 // EinDaten-Dialogfeld
@@ -20,4 +21,19 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV-Unterstützung
 
 	DECLARE_MESSAGE_MAP()
+public:
+	CComboBox combobox;
+	int auswahl;
+	int nummer;
+	CScrollBar scrollbar;
+	int wert;
+	virtual BOOL OnInitDialog();
+
+private:
+	void scroll_to(int pos);
+public:
+	afx_msg void OnCbnSelchangeAuswahl();
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnBnClickedSpeichern();
+	afx_msg void OnBnClickedLoeschen();
 };
