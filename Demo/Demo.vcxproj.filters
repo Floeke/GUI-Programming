@@ -54,6 +54,9 @@
     <ClInclude Include="Testdaten.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="EinDaten.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Demo.cpp">
@@ -84,6 +87,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Testdaten.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="EinDaten.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

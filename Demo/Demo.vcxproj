@@ -194,6 +194,7 @@
     <ClInclude Include="Demo.h" />
     <ClInclude Include="DemoDoc.h" />
     <ClInclude Include="DemoView.h" />
+    <ClInclude Include="EinDaten.h" />
     <ClInclude Include="Loeschwarnung.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Name.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="Demo.cpp" />
     <ClCompile Include="DemoDoc.cpp" />
     <ClCompile Include="DemoView.cpp" />
+    <ClCompile Include="EinDaten.cpp" />
     <ClCompile Include="Loeschwarnung.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="Name.cpp" />

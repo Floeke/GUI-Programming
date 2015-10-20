@@ -9,6 +9,7 @@
 #include "DatenNeu.h"
 #include "Name.h"
 #include "Testdaten.h"
+#include "EinDaten.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -239,7 +240,8 @@ void CMainFrame::OnUpdateEingabeDatenreihe(CCmdUI *pCmdUI)
 
 void CMainFrame::OnEingabeDaten()
 {
-	// TODO: Fügen Sie hier Ihren Befehlsbehandlungscode ein.
+	EinDaten ed;
+	ed.DoModal();
 }
 
 

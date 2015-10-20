@@ -24,6 +24,7 @@
 #define IDD_DIALOG_NAME                 313
 #define IDD_LOESCHWARNUNG               315
 #define IDD_DIALOG_TESTDATEN            317
+#define IDD_EINDATEN                    319
 #define IDC_EIN_NAME                    1000
 #define IDC_EIN_DATENREIHE              1001
 #define IDC_EIN_DATEN                   1002
@@ -38,6 +39,13 @@
 #define IDC_EDIT_MAX                    1013
 #define IDC_EDIT3                       1014
 #define IDC_EDIT_ABWEICHUNG             1014
+#define IDC_NUMMER                      1014
+#define IDC_WERT                        1015
+#define IDC_AUSWAHL                     1016
+#define IDC_SCROLL                      1017
+#define IDC_SPEICHERN                   1018
+#define IDC_BUTTON2                     1019
+#define IDC_LOESCHEN                    1019
 #define ID_EINGABE_NAME                 32771
 #define ID_EINGABE_DATENREIHE           32772
 #define ID_EINGABE_DATEN                32773
@@ -57,9 +65,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        319
+#define _APS_NEXT_RESOURCE_VALUE        321
 #define _APS_NEXT_COMMAND_VALUE         32785
-#define _APS_NEXT_CONTROL_VALUE         1013
+#define _APS_NEXT_CONTROL_VALUE         1019
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif
