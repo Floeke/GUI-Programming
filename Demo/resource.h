@@ -25,6 +25,8 @@
 #define IDD_LOESCHWARNUNG               315
 #define IDD_DIALOG_TESTDATEN            317
 #define IDD_EINDATEN                    319
+#define IDD_DATENREIHE_BEARBEITEN       321
+#define IDD_AUSREIHE                    323
 #define IDC_EIN_NAME                    1000
 #define IDC_EIN_DATENREIHE              1001
 #define IDC_EIN_DATEN                   1002
@@ -44,8 +46,20 @@
 #define IDC_AUSWAHL                     1016
 #define IDC_SCROLL                      1017
 #define IDC_SPEICHERN                   1018
-#define IDC_BUTTON2                     1019
 #define IDC_LOESCHEN                    1019
+#define IDC_DATENREIHE                  1019
+#define IDC_PLUS                        1020
+#define IDC_MINUS                       1021
+#define IDC_NAME                        1022
+#define IDC_CHANGE                      1024
+#define IDC_COLOR                       1025
+#define IDC_LINIEN                      1026
+#define IDC_LINIEN2                     1027
+#define IDC_SAEULEN                     1027
+#define IDC_REIHE                       1029
+#define IDC_XRASTER                     1030
+#define IDC_YRASTER                     1031
+#define IDC_DIAGRAMM                    1032
 #define ID_EINGABE_NAME                 32771
 #define ID_EINGABE_DATENREIHE           32772
 #define ID_EINGABE_DATEN                32773
@@ -65,9 +79,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        321
+#define _APS_NEXT_RESOURCE_VALUE        325
 #define _APS_NEXT_COMMAND_VALUE         32785
-#define _APS_NEXT_CONTROL_VALUE         1019
+#define _APS_NEXT_CONTROL_VALUE         1033
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

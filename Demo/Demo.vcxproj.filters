@@ -57,6 +57,12 @@
     <ClInclude Include="EinDaten.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="EinReihe.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="AusReihe.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Demo.cpp">
@@ -90,6 +96,12 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="EinDaten.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="EinReihe.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="AusReihe.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

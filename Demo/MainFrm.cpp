@@ -10,6 +10,8 @@
 #include "Name.h"
 #include "Testdaten.h"
 #include "EinDaten.h"
+#include "EinReihe.h"
+#include "AusReihe.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -228,7 +230,8 @@ void CMainFrame::OnUpdateEingabeName(CCmdUI *pCmdUI)
 
 void CMainFrame::OnEingabeDatenreihe()
 {
-	// TODO: Fügen Sie hier Ihren Befehlsbehandlungscode ein.
+	EinReihe er;
+	er.DoModal();
 }
 
 
@@ -269,7 +272,9 @@ void CMainFrame::OnUpdateEingabeTestdatren(CCmdUI *pCmdUI)
 
 void CMainFrame::OnAusgabeDatenreihe()
 {
-	
+	AusReihe ar;
+	//TODO: Non-Modal
+	ar.DoModal();
 }
 
 
