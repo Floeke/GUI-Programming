@@ -1,5 +1,7 @@
 #pragma once
 #include "afxwin.h"
+#define ABSTAND_RAND 4
+#define ABSTAND_RAND_OBEN 7
 
 
 // AusReihe-Dialogfeld
@@ -29,4 +31,10 @@ public:
 	BOOL m_yraster;
 	afx_msg void OnClose();
 	afx_msg void OnCbnSelchangeReihe();
+	CRect rahmen;
+	afx_msg void OnPaint();
+	afx_msg void OnBnClickedLinien();
+	afx_msg void OnBnClickedSaeulen();
+	afx_msg void OnBnClickedXraster();
+	afx_msg void OnBnClickedYraster();
 };
