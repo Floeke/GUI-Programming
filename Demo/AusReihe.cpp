@@ -25,7 +25,7 @@ AusReihe::AusReihe(CWnd* pParent /*=NULL*/)
 		m_reihe.InsertString(i, DemoData.get_rname(i));
 
 	UpdateData(FALSE);
-	SetWindowText(CString("Datenreihe: ") + DemoData.get_name());
+	SetWindowText(CString("Datenreihe: ") + DemoData.get_rname(0));
 
 	ShowWindow(SW_SHOW);
 
@@ -48,6 +48,7 @@ void AusReihe::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(AusReihe, CDialog)
 	ON_WM_CLOSE()
+	ON_CBN_SELCHANGE(IDC_REIHE, &AusReihe::OnCbnSelchangeReihe)
 END_MESSAGE_MAP()
 
 
@@ -58,4 +59,13 @@ void AusReihe::OnClose()
 {
 	DestroyWindow();
 	delete this;
+}
+
+
+
+
+void AusReihe::OnCbnSelchangeReihe()
+{
+	UpdateData(TRUE);
+	SetWindowText(CString("Datenreihe: ") + DemoData.get_rname(m_selection));
 }

@@ -11,6 +11,7 @@
 
 #include "DemoDoc.h"
 #include "Daten.h"
+#include "draw.h"
 #include <propkey.h>
 
 #ifdef _DEBUG
@@ -59,6 +60,8 @@ void CDemoDoc::Serialize(CArchive& ar)
 	}
 	else
 	{
+		stdbrush.setall();
+		stdpen.setall();
 		DemoData.update_display();
 	}
 }

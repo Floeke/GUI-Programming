@@ -12,6 +12,7 @@
 #include "EinDaten.h"
 #include "EinReihe.h"
 #include "AusReihe.h"
+#include "draw.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -260,6 +261,11 @@ void CMainFrame::OnEingabeTestdatren()
 	if (td.DoModal() == IDOK)
 	{
 		DemoData.testdaten(td.minimum, td.maximum, td.abweichung, td.check_name, td.check_farben, td.check_werte);
+		if (td.check_farben)
+		{
+			stdbrush.setall();
+			stdpen.setall();
+		}
 	}
 }
 
@@ -305,6 +311,8 @@ void CMainFrame::OnFileNew()
 	if (dn.DoModal() == IDOK)
 	{
 		DemoData.init(dn.anzahl_z, dn.anzahl_2, dn.datenname);
+		stdbrush.setall();
+		stdpen.setall();
 		GetActiveDocument()->SetModifiedFlag();
 	}
 }

@@ -6,6 +6,7 @@
 #include "EinReihe.h"
 #include "afxdialogex.h"
 #include "Daten.h"
+#include "draw.h"
 
 
 // EinReihe-Dialogfeld
@@ -66,7 +67,15 @@ void EinReihe::OnBnClickedSpeichern()
 
 void EinReihe::OnBnClickedChange()
 {
-	// TODO: Fügen Sie hier Ihren Kontrollbehandlungscode für die Benachrichtigung ein.
+	CColorDialog cd(DemoData.get_farbe(datenreihe-1));
+
+	if (cd.DoModal() == IDOK)
+	{
+		DemoData.set_farbe(datenreihe - 1, cd.GetColor());
+		stdbrush.setall();
+		stdpen.setall();
+		GetParentFrame()->GetActiveDocument()->SetModifiedFlag();
+	}
 }
 
 

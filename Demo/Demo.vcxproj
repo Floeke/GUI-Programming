@@ -195,6 +195,7 @@
     <ClInclude Include="Demo.h" />
     <ClInclude Include="DemoDoc.h" />
     <ClInclude Include="DemoView.h" />
+    <ClInclude Include="draw.h" />
     <ClInclude Include="EinDaten.h" />
     <ClInclude Include="EinReihe.h" />
     <ClInclude Include="Loeschwarnung.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="Demo.cpp" />
     <ClCompile Include="DemoDoc.cpp" />
     <ClCompile Include="DemoView.cpp" />
+    <ClCompile Include="draw.cpp" />
     <ClCompile Include="EinDaten.cpp" />
     <ClCompile Include="EinReihe.cpp" />
     <ClCompile Include="Loeschwarnung.cpp" />

@@ -28,4 +28,5 @@ public:
 	BOOL m_xraster;
 	BOOL m_yraster;
 	afx_msg void OnClose();
+	afx_msg void OnCbnSelchangeReihe();
 };
