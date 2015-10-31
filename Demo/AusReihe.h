@@ -1,7 +1,7 @@
 #pragma once
 #include "afxwin.h"
-#define ABSTAND_RAND 4
-#define ABSTAND_RAND_OBEN 7
+#define ABSTAND_RAND 15
+#define ABSTAND_RAND_OBEN 15
 
 
 // AusReihe-Dialogfeld

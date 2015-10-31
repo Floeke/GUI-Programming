@@ -77,40 +77,30 @@ void AusReihe::OnPaint()
 	CPaintDC dc(this); // device context for painting
 	
 	dc.FillRect(rahmen, &stdbrush.white); //Rahmen zum zeichnen weiß füllen
-	CRect innen_rahmen = CRect(rahmen.TopLeft(), rahmen.BottomRight());
-	innen_rahmen.DeflateRect(ABSTAND_RAND, ABSTAND_RAND_OBEN, ABSTAND_RAND, ABSTAND_RAND);
 
-	dc.FrameRect(&innen_rahmen, &stdbrush.gray);
-	CPen *oldPen;
-	oldPen = dc.SelectObject(&stdpen.gray1);
+	dc.FrameRect(&rahmen, &stdbrush.gray);
+	CPen *oldPen = dc.SelectObject(&stdpen.gray1);
 
 	if (m_xraster) //funktioniert offenbar...
 	{
-		int anzahl_x = DemoData.get_anz_s();
-		int verfuegbar_x = innen_rahmen.right - innen_rahmen.left - ABSTAND_RAND - ABSTAND_RAND;
-		int draw_here;
-		for (int i = 1; i <= anzahl_x; i++)
+		for (int index = 0; index < DemoData.get_anz_s(); index++)
 		{
-			draw_here = ABSTAND_RAND + (i*verfuegbar_x) / (anzahl_x);
-			dc.MoveTo(draw_here, innen_rahmen.bottom);
-			dc.LineTo(draw_here, innen_rahmen.top);
+			int x = ABSTAND_RAND + rahmen.left + (index * (rahmen.Width() - (2 * ABSTAND_RAND))) / (DemoData.get_anz_s() - 1);
+			dc.MoveTo(x, rahmen.top);
+			dc.LineTo(x, rahmen.bottom);
 		}
 	}
 
 	if (m_yraster) //Bissken weiter unten
 	{
-		int anzahl_y = DemoData.get_anz_z();
-		int verfuegbar_y = innen_rahmen.bottom - innen_rahmen.top - ABSTAND_RAND_OBEN - ABSTAND_RAND;
-		int draw_here;
-		for (int i = 1; i <= anzahl_y; i++)
+		for (int index = 0; index < DemoData.get_anz_z(); index++)
 		{
-			draw_here = verfuegbar_y + ABSTAND_RAND_OBEN - (ABSTAND_RAND + (i*verfuegbar_y) / (anzahl_y));// +1);
-			dc.MoveTo(innen_rahmen.left, innen_rahmen.top + draw_here);
-			dc.LineTo(innen_rahmen.right, innen_rahmen.top + draw_here);
+			int y = ABSTAND_RAND_OBEN + rahmen.top + (index * (rahmen.Height() - ABSTAND_RAND - ABSTAND_RAND_OBEN)) / (DemoData.get_anz_z() - 1);
+			dc.MoveTo(rahmen.left, y);
+			dc.LineTo(rahmen.right, y);
 		}
 	}
 
-	dc.SelectObject(oldPen);
 
 	if (m_darstellung == 0) //Linien-Darstellung
 	{
@@ -118,6 +108,10 @@ void AusReihe::OnPaint()
 	} else { //Säulen-Darstellung
 
 	}
+
+
+
+	dc.SelectObject(oldPen);
 }
 
 
@@ -157,3 +151,5 @@ void AusReihe::OnBnClickedYraster()
 	InvalidateRect(rahmen, FALSE);
 	UpdateWindow();
 }
+
+
