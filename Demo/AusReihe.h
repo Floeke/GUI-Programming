@@ -2,6 +2,7 @@
 #include "afxwin.h"
 #define ABSTAND_RAND 15
 #define ABSTAND_RAND_OBEN 15
+#define POINT_SIZE 4
 
 
 // AusReihe-Dialogfeld

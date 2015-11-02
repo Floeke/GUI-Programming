@@ -96,8 +96,12 @@ void AusReihe::OnPaint()
 	dc.FrameRect(&rahmen, &stdbrush.gray);
 	CPen *oldPen = dc.SelectObject(&stdpen.gray1);
 	CBrush *oldBrush = dc.SelectObject(&stdbrush.brush[m_selection]);
-	CSize xy = CSize(DemoData.minimum(m_selection), DemoData.maximum(m_selection));//CSize(DemoData.get_anz_s(), DemoData.get_anz_z()); //Datenbereich
-	CSize uv = CSize(rahmen.bottom, rahmen.top);// CSize(rahmen.Width(), rahmen.Height()); //Zeichenbereich
+	CSize height_range = CSize(DemoData.minimum(m_selection), DemoData.maximum(m_selection));
+	CSize width_range = CSize(0, DemoData.get_anz_s());
+	CSize height_drawable = CSize(rahmen.bottom - ABSTAND_RAND, rahmen.top + ABSTAND_RAND_OBEN);
+	CSize width_drawable = CSize(rahmen.left, rahmen.right);
+
+
 
 	if (m_xraster)
 	{
@@ -122,18 +126,43 @@ void AusReihe::OnPaint()
 
 	if (m_darstellung == 0) //Linien-Darstellung
 	{
-		//TODO: Scale right. Fix that shit.
-		dc.SelectObject(&stdpen.pen[m_selection]);
-		int x = scalePoint(0, xy, uv);
-		int y = scalePoint(DemoData.get_wert(m_selection, 0), xy, uv);
+
+		//Draw y=0 - Line
+		dc.SelectObject(&stdpen.black2);
+		dc.MoveTo(rahmen.left + 2, scalePoint(0, height_range, height_drawable));
+		dc.LineTo(rahmen.right - 2, scalePoint(0, height_range, height_drawable));
+
+		//Draw background-line
+		dc.SelectObject(&stdpen.black5);
+		int x = rahmen.left + scalePoint(0, width_range, width_drawable);
+		int y = scalePoint(DemoData.get_wert(m_selection, 0), height_range, height_drawable);
 		dc.MoveTo(x, y);
 
 		for (int index = 1; index < DemoData.get_anz_s(); index++)
 		{
-			x = scalePoint(index, xy, uv);
-			y = scalePoint(DemoData.get_wert(m_selection, index), xy, uv);
+			x = rahmen.left + scalePoint(index, width_range, width_drawable);
+			y = scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);
+
 			dc.LineTo(x, y);
 		}
+
+		//Draw line
+		dc.SelectObject(&stdpen.pen[m_selection]);
+		x = rahmen.left + scalePoint(0, width_range, width_drawable);
+		y = scalePoint(DemoData.get_wert(m_selection, 0), height_range, height_drawable);		
+		dc.MoveTo(x, y);
+
+		for (int index = 1; index < DemoData.get_anz_s(); index++)
+		{
+			dc.Ellipse(x - POINT_SIZE, y - POINT_SIZE, x + POINT_SIZE, y + POINT_SIZE);
+			x = rahmen.left + scalePoint(index, width_range, width_drawable);
+			y =  scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);
+			
+			dc.LineTo(x, y);
+		}
+
+		dc.Ellipse(x - POINT_SIZE, y - POINT_SIZE, x + POINT_SIZE, y + POINT_SIZE);
+
 	} else { 
 
 		//Rechtecke. Ausmalen.
@@ -154,12 +183,12 @@ void AusReihe::OnPaint()
 			int bottom;
 			if (DemoData.get_wert(m_selection, index) > 0)
 			{
-				top = scalePoint(DemoData.get_wert(m_selection, index), xy, uv);// +rahmen.top;
+				top = scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);// +rahmen.top;
 				bottom = rahmen.bottom;
 			}
 			else {
 				top = rahmen.top;
-				bottom = scalePoint(DemoData.get_wert(m_selection, index), xy, uv);// +rahmen.bottom;
+				bottom = scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);// +rahmen.bottom;
 			}
 
 			CRect bar = CRect(left, top, right, bottom);
