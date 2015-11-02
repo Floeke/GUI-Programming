@@ -54,7 +54,6 @@
 #define IDC_CHANGE                      1024
 #define IDC_COLOR                       1025
 #define IDC_LINIEN                      1026
-#define IDC_LINIEN2                     1027
 #define IDC_SAEULEN                     1027
 #define IDC_REIHE                       1029
 #define IDC_XRASTER                     1030
@@ -74,13 +73,14 @@
 #define ID_ANSICHT_STATUSLEISTE         32782
 #define ID_ANSICHT_AUSGABELEISTE        32783
 #define ID_ANSICHT_HINTERGRUND          32784
+#define ID_GUENTHER_URGIREUN            32785
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        325
-#define _APS_NEXT_COMMAND_VALUE         32785
+#define _APS_NEXT_COMMAND_VALUE         32786
 #define _APS_NEXT_CONTROL_VALUE         1033
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

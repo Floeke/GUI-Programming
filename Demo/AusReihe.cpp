@@ -99,7 +99,7 @@ void AusReihe::OnPaint()
 	CSize height_range = CSize(DemoData.minimum(m_selection), DemoData.maximum(m_selection));
 	CSize width_range = CSize(0, DemoData.get_anz_s());
 	CSize height_drawable = CSize(rahmen.bottom - ABSTAND_RAND, rahmen.top + ABSTAND_RAND_OBEN);
-	CSize width_drawable = CSize(rahmen.left, rahmen.right);
+	CSize width_drawable = CSize(rahmen.left, rahmen.right - ABSTAND_RAND);
 
 
 
@@ -163,42 +163,30 @@ void AusReihe::OnPaint()
 
 		dc.Ellipse(x - POINT_SIZE, y - POINT_SIZE, x + POINT_SIZE, y + POINT_SIZE);
 
-	} else { 
+	} else {  //Säulen-Darstellung
 
-		//Rechtecke. Ausmalen.
-		//Breite der Rechtecke ermitteln
-		//X = Spalte, also index
-		//TODO: Find proper algorithm
-		int rectangleWidth = 5;// ABSTAND_RAND / DemoData.get_anz_s();
-		//TODO: Fix that shit
+		//Width of the bar
+		int rectangleWidth = scalePoint(1, width_range, width_drawable) / 5;
 
+		//Draw y=0 - Line
+		dc.SelectObject(&stdpen.black2);
+		dc.MoveTo(rahmen.left + 2, scalePoint(0, height_range, height_drawable));
+		dc.LineTo(rahmen.right - 2, scalePoint(0, height_range, height_drawable));
+
+
+		//Draw bars
 		for (int index = 0; index < DemoData.get_anz_s(); index++)
 		{
 			int x = ABSTAND_RAND + rahmen.left + (index * (rahmen.Width() - (2 * ABSTAND_RAND))) / (DemoData.get_anz_s() - 1);
-			//CPoint topleft = CPoint()
-			//CRect bar = CRect()
+			int y = scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);
 			int left = x - rectangleWidth;
 			int right = x + rectangleWidth;
-			int top;
-			int bottom;
-			if (DemoData.get_wert(m_selection, index) > 0)
-			{
-				top = scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);// +rahmen.top;
-				bottom = rahmen.bottom;
-			}
-			else {
-				top = rahmen.top;
-				bottom = scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);// +rahmen.bottom;
-			}
 
-			CRect bar = CRect(left, top, right, bottom);
-			//dc.FillRect(&bar, &stdbrush.brush[m_selection]);
-			dc.FillRect(&bar, &stdbrush.gray);
-
+			CRect bar = CRect(left, y, right, scalePoint(0, height_range, height_drawable));
+			dc.FillRect(&bar, &stdbrush.brush[m_selection]);
 		}
 
 	}
-
 
 
 	dc.SelectObject(oldPen);
@@ -242,5 +230,3 @@ void AusReihe::OnBnClickedYraster()
 	InvalidateRect(rahmen, FALSE);
 	UpdateWindow();
 }
-
-
