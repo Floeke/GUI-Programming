@@ -13,6 +13,21 @@
 
 IMPLEMENT_DYNAMIC(AusReihe, CDialog)
 
+
+int scalePoint(int z, CSize xy, CSize uv)
+{
+	int scaled_z;
+	if ((xy.cy - xy.cx) == 0)
+	{
+		scaled_z = ((z - xy.cx)*(uv.cy - uv.cx)) + uv.cx;
+	}
+	else
+	{
+		scaled_z = ((z - xy.cx)*(uv.cy - uv.cx)) / (xy.cy - xy.cx) + uv.cx;
+	}
+	return scaled_z;
+}
+
 AusReihe::AusReihe(CWnd* pParent /*=NULL*/)
 	: CDialog(IDD_AUSREIHE, pParent)
 	, m_darstellung(0)
@@ -80,8 +95,11 @@ void AusReihe::OnPaint()
 
 	dc.FrameRect(&rahmen, &stdbrush.gray);
 	CPen *oldPen = dc.SelectObject(&stdpen.gray1);
+	CBrush *oldBrush = dc.SelectObject(&stdbrush.brush[m_selection]);
+	CSize xy = CSize(DemoData.minimum(m_selection), DemoData.maximum(m_selection));//CSize(DemoData.get_anz_s(), DemoData.get_anz_z()); //Datenbereich
+	CSize uv = CSize(rahmen.bottom, rahmen.top);// CSize(rahmen.Width(), rahmen.Height()); //Zeichenbereich
 
-	if (m_xraster) //funktioniert offenbar...
+	if (m_xraster)
 	{
 		for (int index = 0; index < DemoData.get_anz_s(); index++)
 		{
@@ -91,7 +109,7 @@ void AusReihe::OnPaint()
 		}
 	}
 
-	if (m_yraster) //Bissken weiter unten
+	if (m_yraster) 
 	{
 		for (int index = 0; index < DemoData.get_anz_z(); index++)
 		{
@@ -104,14 +122,58 @@ void AusReihe::OnPaint()
 
 	if (m_darstellung == 0) //Linien-Darstellung
 	{
+		//TODO: Scale right. Fix that shit.
+		dc.SelectObject(&stdpen.pen[m_selection]);
+		int x = scalePoint(0, xy, uv);
+		int y = scalePoint(DemoData.get_wert(m_selection, 0), xy, uv);
+		dc.MoveTo(x, y);
 
-	} else { //Säulen-Darstellung
+		for (int index = 1; index < DemoData.get_anz_s(); index++)
+		{
+			x = scalePoint(index, xy, uv);
+			y = scalePoint(DemoData.get_wert(m_selection, index), xy, uv);
+			dc.LineTo(x, y);
+		}
+	} else { 
+
+		//Rechtecke. Ausmalen.
+		//Breite der Rechtecke ermitteln
+		//X = Spalte, also index
+		//TODO: Find proper algorithm
+		int rectangleWidth = 5;// ABSTAND_RAND / DemoData.get_anz_s();
+		//TODO: Fix that shit
+
+		for (int index = 0; index < DemoData.get_anz_s(); index++)
+		{
+			int x = ABSTAND_RAND + rahmen.left + (index * (rahmen.Width() - (2 * ABSTAND_RAND))) / (DemoData.get_anz_s() - 1);
+			//CPoint topleft = CPoint()
+			//CRect bar = CRect()
+			int left = x - rectangleWidth;
+			int right = x + rectangleWidth;
+			int top;
+			int bottom;
+			if (DemoData.get_wert(m_selection, index) > 0)
+			{
+				top = scalePoint(DemoData.get_wert(m_selection, index), xy, uv);// +rahmen.top;
+				bottom = rahmen.bottom;
+			}
+			else {
+				top = rahmen.top;
+				bottom = scalePoint(DemoData.get_wert(m_selection, index), xy, uv);// +rahmen.bottom;
+			}
+
+			CRect bar = CRect(left, top, right, bottom);
+			//dc.FillRect(&bar, &stdbrush.brush[m_selection]);
+			dc.FillRect(&bar, &stdbrush.gray);
+
+		}
 
 	}
 
 
 
 	dc.SelectObject(oldPen);
+	dc.SelectObject(oldBrush);
 }
 
 
