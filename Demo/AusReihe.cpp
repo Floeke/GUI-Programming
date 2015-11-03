@@ -332,10 +332,12 @@ void AusReihe::OnLButtonDblClk(UINT nFlags, CPoint point)
 	if (PtInRect(&hit, point))
 	{
 		NeuerWert nw;
+		nw.new_value = DemoData.get_wert(m_selection, x);
 		if (nw.DoModal() == IDOK)
 		{
 			DemoData.set_wert(m_selection, x, nw.new_value);
 			UpdateData(FALSE);
+			GetParentFrame()->GetActiveDocument()->SetModifiedFlag();
 			InvalidateRect(&rahmen, FALSE);
 		}
 	}
