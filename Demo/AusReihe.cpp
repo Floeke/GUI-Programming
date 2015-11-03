@@ -46,6 +46,11 @@ AusReihe::AusReihe(CWnd* pParent /*=NULL*/)
 	GetDlgItem(IDC_DIAGRAMM)->GetWindowRect(&rahmen);
 	ScreenToClient(&rahmen);
 
+	for (int i = 0; i < MAX_SPALTEN; i++)
+	{
+		infoflag[i] = 0;
+	}
+
 	ShowWindow(SW_SHOW);
 
 }
@@ -73,6 +78,7 @@ BEGIN_MESSAGE_MAP(AusReihe, CDialog)
 	ON_BN_CLICKED(IDC_SAEULEN, &AusReihe::OnBnClickedSaeulen)
 	ON_BN_CLICKED(IDC_XRASTER, &AusReihe::OnBnClickedXraster)
 	ON_BN_CLICKED(IDC_YRASTER, &AusReihe::OnBnClickedYraster)
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 
@@ -92,10 +98,14 @@ void AusReihe::OnPaint()
 	CPaintDC dc(this); // device context for painting
 	
 	dc.FillRect(rahmen, &stdbrush.white); //Rahmen zum zeichnen weiß füllen
-
 	dc.FrameRect(&rahmen, &stdbrush.gray);
+
+	//Old Draw-Objects
 	CPen *oldPen = dc.SelectObject(&stdpen.gray1);
 	CBrush *oldBrush = dc.SelectObject(&stdbrush.brush[m_selection]);
+	CFont *oldFont = dc.SelectObject(&stdfont.norm);
+
+	//Sizes for scaling
 	CSize height_range = CSize(DemoData.minimum(m_selection), DemoData.maximum(m_selection));
 	CSize width_range = CSize(0, DemoData.get_anz_s());
 	CSize height_drawable = CSize(rahmen.bottom - ABSTAND_RAND, rahmen.top + ABSTAND_RAND_OBEN);
@@ -163,7 +173,8 @@ void AusReihe::OnPaint()
 
 		dc.Ellipse(x - POINT_SIZE, y - POINT_SIZE, x + POINT_SIZE, y + POINT_SIZE);
 
-	} else {  //Säulen-Darstellung
+	} 
+	else {  //Säulen-Darstellung
 
 		//Width of the bar
 		int rectangleWidth = scalePoint(1, width_range, width_drawable) / 5;
@@ -189,8 +200,33 @@ void AusReihe::OnPaint()
 	}
 
 
+	//Display values
+	dc.SetBkMode(TRANSPARENT);
+	CRect infobox;
+
+	for (int index = 0; index < DemoData.get_anz_s(); index++)
+	{
+		if (infoflag[index])
+		{
+			int x = rahmen.left + scalePoint(index, width_range, width_drawable);
+			int y = scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);
+
+			infobox.SetRect(x, y, 0, 0);
+			CString text;
+			text.Format(CString("%d"), DemoData.get_wert(m_selection, index));
+
+			dc.DrawText(text, &infobox, DT_CALCRECT);
+			infobox.OffsetRect(0, -infobox.Height());
+			infobox.right += 6;
+			dc.FillRect(infobox, &stdbrush.yellow);
+			dc.DrawText(text, &infobox, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+			dc.FrameRect(infobox, &stdbrush.black);
+		}
+	}
+
 	dc.SelectObject(oldPen);
 	dc.SelectObject(oldBrush);
+	dc.SelectObject(oldFont);
 }
 
 
@@ -208,7 +244,6 @@ void AusReihe::OnCbnSelchangeReihe()
 	InvalidateRect(rahmen, FALSE);
 	UpdateWindow();
 }
-
 
 
 void AusReihe::OnBnClickedSaeulen()
@@ -229,4 +264,42 @@ void AusReihe::OnBnClickedYraster()
 {
 	InvalidateRect(rahmen, FALSE);
 	UpdateWindow();
+}
+
+void AusReihe::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	//Point isn't inside of the drawable area -> return
+	if (!PtInRect(&rahmen, point)) return;
+
+	//Sizes for scaling
+	CSize height_range = CSize(DemoData.minimum(m_selection), DemoData.maximum(m_selection));
+	CSize width_range = CSize(0, DemoData.get_anz_s());
+	CSize height_drawable = CSize(rahmen.bottom - ABSTAND_RAND, rahmen.top + ABSTAND_RAND_OBEN);
+	CSize width_drawable = CSize(rahmen.left, rahmen.right - ABSTAND_RAND);
+
+	//Get the selected point
+	int x = scalePoint(point.x, width_drawable, width_range);
+	int y = DemoData.get_wert(m_selection, x);
+
+	int x_hit = point.x;
+	int y_hit = scalePoint(y, height_range, height_drawable);
+
+	//Hit
+	CRect hit;
+	hit.SetRect(x_hit - 2 * POINT_SIZE, y_hit - 2 * POINT_SIZE, x_hit + 2 * POINT_SIZE, y_hit + 2 * POINT_SIZE);
+
+	if (PtInRect(&hit, point))
+	{
+		infoflag[x] = !infoflag[x];
+	}
+	else { 
+		return; 
+	}
+
+
+	hit.InflateRect(40, 40);
+
+	RedrawWindow(&hit, 0, RDW_INVALIDATE | RDW_UPDATENOW);
+
+	CDialog::OnLButtonDown(nFlags, point);
 }

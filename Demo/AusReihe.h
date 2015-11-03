@@ -1,5 +1,6 @@
 #pragma once
 #include "afxwin.h"
+#include "Daten.h"
 #define ABSTAND_RAND 15
 #define ABSTAND_RAND_OBEN 15
 #define POINT_SIZE 4
@@ -38,4 +39,9 @@ public:
 	afx_msg void OnBnClickedSaeulen();
 	afx_msg void OnBnClickedXraster();
 	afx_msg void OnBnClickedYraster();
+
+private:
+	char infoflag[MAX_SPALTEN];
+public:
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };
