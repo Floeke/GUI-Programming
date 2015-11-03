@@ -66,6 +66,9 @@
     <ClInclude Include="draw.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="NeuerWert.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Demo.cpp">
@@ -108,6 +111,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="draw.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="NeuerWert.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

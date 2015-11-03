@@ -44,4 +44,5 @@ private:
 	char infoflag[MAX_SPALTEN];
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 };

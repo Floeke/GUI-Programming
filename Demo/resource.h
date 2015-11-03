@@ -27,6 +27,8 @@
 #define IDD_EINDATEN                    319
 #define IDD_DATENREIHE_BEARBEITEN       321
 #define IDD_AUSREIHE                    323
+#define IDD_DIALOG1                     325
+#define IDD_DIALOG_NEUER_WERT           325
 #define IDC_EIN_NAME                    1000
 #define IDC_EIN_DATENREIHE              1001
 #define IDC_EIN_DATEN                   1002
@@ -59,6 +61,7 @@
 #define IDC_XRASTER                     1030
 #define IDC_YRASTER                     1031
 #define IDC_DIAGRAMM                    1032
+#define IDC_NEUER_WERT                  1033
 #define ID_EINGABE_NAME                 32771
 #define ID_EINGABE_DATENREIHE           32772
 #define ID_EINGABE_DATEN                32773
@@ -79,9 +82,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        325
+#define _APS_NEXT_RESOURCE_VALUE        327
 #define _APS_NEXT_COMMAND_VALUE         32786
-#define _APS_NEXT_CONTROL_VALUE         1033
+#define _APS_NEXT_CONTROL_VALUE         1034
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

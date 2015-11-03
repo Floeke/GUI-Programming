@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include "Daten.h"
 #include "draw.h"
+#include "NeuerWert.h"
 
 
 // AusReihe-Dialogfeld
@@ -79,6 +80,7 @@ BEGIN_MESSAGE_MAP(AusReihe, CDialog)
 	ON_BN_CLICKED(IDC_XRASTER, &AusReihe::OnBnClickedXraster)
 	ON_BN_CLICKED(IDC_YRASTER, &AusReihe::OnBnClickedYraster)
 	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 
@@ -302,4 +304,44 @@ void AusReihe::OnLButtonDown(UINT nFlags, CPoint point)
 	RedrawWindow(&hit, 0, RDW_INVALIDATE | RDW_UPDATENOW);
 
 	CDialog::OnLButtonDown(nFlags, point);
+}
+
+
+void AusReihe::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	//Point isn't inside of the drawable area -> return
+	if (!PtInRect(&rahmen, point)) return;
+
+	//Sizes for scaling
+	CSize height_range = CSize(DemoData.minimum(m_selection), DemoData.maximum(m_selection));
+	CSize width_range = CSize(0, DemoData.get_anz_s());
+	CSize height_drawable = CSize(rahmen.bottom - ABSTAND_RAND, rahmen.top + ABSTAND_RAND_OBEN);
+	CSize width_drawable = CSize(rahmen.left, rahmen.right - ABSTAND_RAND);
+
+	//Get the selected point
+	int x = scalePoint(point.x, width_drawable, width_range);
+	int y = DemoData.get_wert(m_selection, x);
+
+	int x_hit = point.x;
+	int y_hit = scalePoint(y, height_range, height_drawable);
+
+	//Hit
+	CRect hit;
+	hit.SetRect(x_hit - 2 * POINT_SIZE, y_hit - 2 * POINT_SIZE, x_hit + 2 * POINT_SIZE, y_hit + 2 * POINT_SIZE);
+
+	if (PtInRect(&hit, point))
+	{
+		NeuerWert nw;
+		if (nw.DoModal() == IDOK)
+		{
+			DemoData.set_wert(m_selection, x, nw.new_value);
+			UpdateData(FALSE);
+			InvalidateRect(&rahmen, FALSE);
+		}
+	}
+
+
+	
+
+	CDialog::OnLButtonDblClk(nFlags, point);
 }
