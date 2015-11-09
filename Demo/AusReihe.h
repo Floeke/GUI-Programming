@@ -1,9 +1,10 @@
 #pragma once
 #include "afxwin.h"
 #include "Daten.h"
-#define ABSTAND_RAND 15
+#define ABSTAND_RAND 20
 #define ABSTAND_RAND_OBEN 15
 #define POINT_SIZE 4
+#define ANZ_HORIZONTAL_LINES 16
 
 
 // AusReihe-Dialogfeld

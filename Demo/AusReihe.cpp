@@ -26,6 +26,7 @@ int scalePoint(int z, CSize xy, CSize uv)
 	{
 		scaled_z = ((z - xy.cx)*(uv.cy - uv.cx)) / (xy.cy - xy.cx) + uv.cx;
 	}
+
 	return scaled_z;
 }
 
@@ -109,9 +110,9 @@ void AusReihe::OnPaint()
 
 	//Sizes for scaling
 	CSize height_range = CSize(DemoData.minimum(m_selection), DemoData.maximum(m_selection));
-	CSize width_range = CSize(0, DemoData.get_anz_s());
+	CSize width_range = CSize(0, DemoData.get_anz_s()-1);
 	CSize height_drawable = CSize(rahmen.bottom - ABSTAND_RAND, rahmen.top + ABSTAND_RAND_OBEN);
-	CSize width_drawable = CSize(rahmen.left, rahmen.right - ABSTAND_RAND);
+	CSize width_drawable = CSize(rahmen.left + ABSTAND_RAND, rahmen.right - ABSTAND_RAND);
 
 
 
@@ -119,7 +120,7 @@ void AusReihe::OnPaint()
 	{
 		for (int index = 0; index < DemoData.get_anz_s(); index++)
 		{
-			int x = ABSTAND_RAND + rahmen.left + (index * (rahmen.Width() - (2 * ABSTAND_RAND))) / (DemoData.get_anz_s() - 1);
+			int x = scalePoint(index, width_range, width_drawable);
 			dc.MoveTo(x, rahmen.top);
 			dc.LineTo(x, rahmen.bottom);
 		}
@@ -127,9 +128,12 @@ void AusReihe::OnPaint()
 
 	if (m_yraster) 
 	{
-		for (int index = 0; index < DemoData.get_anz_z(); index++)
+		
+		CSize height_range_horizontal_lines = CSize(-ANZ_HORIZONTAL_LINES / 2, ANZ_HORIZONTAL_LINES / 2);
+
+		for (int index = -ANZ_HORIZONTAL_LINES / 2; index < ANZ_HORIZONTAL_LINES / 2; index++)
 		{
-			int y = ABSTAND_RAND_OBEN + rahmen.top + (index * (rahmen.Height() - ABSTAND_RAND - ABSTAND_RAND_OBEN)) / (DemoData.get_anz_z() - 1);
+			int y = scalePoint(index, height_range_horizontal_lines, height_drawable);
 			dc.MoveTo(rahmen.left, y);
 			dc.LineTo(rahmen.right, y);
 		}
@@ -146,13 +150,13 @@ void AusReihe::OnPaint()
 
 		//Draw background-line
 		dc.SelectObject(&stdpen.black5);
-		int x = rahmen.left + scalePoint(0, width_range, width_drawable);
+		int x = scalePoint(0, width_range, width_drawable);
 		int y = scalePoint(DemoData.get_wert(m_selection, 0), height_range, height_drawable);
 		dc.MoveTo(x, y);
 
 		for (int index = 1; index < DemoData.get_anz_s(); index++)
 		{
-			x = rahmen.left + scalePoint(index, width_range, width_drawable);
+			x = scalePoint(index, width_range, width_drawable);
 			y = scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);
 
 			dc.LineTo(x, y);
@@ -160,14 +164,14 @@ void AusReihe::OnPaint()
 
 		//Draw line
 		dc.SelectObject(&stdpen.pen[m_selection]);
-		x = rahmen.left + scalePoint(0, width_range, width_drawable);
+		x = scalePoint(0, width_range, width_drawable);
 		y = scalePoint(DemoData.get_wert(m_selection, 0), height_range, height_drawable);		
 		dc.MoveTo(x, y);
 
 		for (int index = 1; index < DemoData.get_anz_s(); index++)
 		{
 			dc.Ellipse(x - POINT_SIZE, y - POINT_SIZE, x + POINT_SIZE, y + POINT_SIZE);
-			x = rahmen.left + scalePoint(index, width_range, width_drawable);
+			x = scalePoint(index, width_range, width_drawable);
 			y =  scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);
 			
 			dc.LineTo(x, y);
@@ -179,7 +183,7 @@ void AusReihe::OnPaint()
 	else {  //Säulen-Darstellung
 
 		//Width of the bar
-		int rectangleWidth = scalePoint(1, width_range, width_drawable) / 5;
+		int rectangleWidth = scalePoint(1, width_range, width_drawable) / 10;
 
 		//Draw y=0 - Line
 		dc.SelectObject(&stdpen.black2);
@@ -190,7 +194,7 @@ void AusReihe::OnPaint()
 		//Draw bars
 		for (int index = 0; index < DemoData.get_anz_s(); index++)
 		{
-			int x = ABSTAND_RAND + rahmen.left + (index * (rahmen.Width() - (2 * ABSTAND_RAND))) / (DemoData.get_anz_s() - 1);
+			int x = scalePoint(index, width_range, width_drawable);
 			int y = scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);
 			int left = x - rectangleWidth;
 			int right = x + rectangleWidth;
@@ -210,7 +214,7 @@ void AusReihe::OnPaint()
 	{
 		if (infoflag[index])
 		{
-			int x = rahmen.left + scalePoint(index, width_range, width_drawable);
+			int x = scalePoint(index, width_range, width_drawable);
 			int y = scalePoint(DemoData.get_wert(m_selection, index), height_range, height_drawable);
 
 			infobox.SetRect(x, y, 0, 0);
@@ -275,9 +279,9 @@ void AusReihe::OnLButtonDown(UINT nFlags, CPoint point)
 
 	//Sizes for scaling
 	CSize height_range = CSize(DemoData.minimum(m_selection), DemoData.maximum(m_selection));
-	CSize width_range = CSize(0, DemoData.get_anz_s());
+	CSize width_range = CSize(0, DemoData.get_anz_s() - 1);
 	CSize height_drawable = CSize(rahmen.bottom - ABSTAND_RAND, rahmen.top + ABSTAND_RAND_OBEN);
-	CSize width_drawable = CSize(rahmen.left, rahmen.right - ABSTAND_RAND);
+	CSize width_drawable = CSize(rahmen.left + ABSTAND_RAND, rahmen.right - ABSTAND_RAND);
 
 	//Get the selected point
 	int x = scalePoint(point.x, width_drawable, width_range);
@@ -314,9 +318,9 @@ void AusReihe::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 	//Sizes for scaling
 	CSize height_range = CSize(DemoData.minimum(m_selection), DemoData.maximum(m_selection));
-	CSize width_range = CSize(0, DemoData.get_anz_s());
+	CSize width_range = CSize(0, DemoData.get_anz_s() - 1);
 	CSize height_drawable = CSize(rahmen.bottom - ABSTAND_RAND, rahmen.top + ABSTAND_RAND_OBEN);
-	CSize width_drawable = CSize(rahmen.left, rahmen.right - ABSTAND_RAND);
+	CSize width_drawable = CSize(rahmen.left + ABSTAND_RAND, rahmen.right - ABSTAND_RAND);
 
 	//Get the selected point
 	int x = scalePoint(point.x, width_drawable, width_range);
