@@ -13,12 +13,12 @@
 
 IMPLEMENT_DYNAMIC(EinReihe, CDialog)
 
-EinReihe::EinReihe(CWnd* pParent /*=NULL*/)
+EinReihe::EinReihe(CWnd* pParent /*= NULL*/, int row_number /*= 1*/)
 	: CDialog(IDD_DATENREIHE_BEARBEITEN, pParent)
 	, datenreihe(0)
 	, name(_T(""))
 {
-
+	datenreihe = row_number;
 }
 
 EinReihe::~EinReihe()
@@ -83,7 +83,6 @@ BOOL EinReihe::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	datenreihe = 1;
 	name = DemoData.get_rname(datenreihe-1);
 	minus.EnableWindow(FALSE);
 

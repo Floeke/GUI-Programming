@@ -334,6 +334,13 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
 END
 
+IDD_TABELLE DIALOGEX 0, 0, 69, 34
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -466,6 +473,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 55
     END
+
+    IDD_TABELLE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 62
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 27
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -526,6 +541,11 @@ BEGIN
 END
 
 IDD_LEGENDE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_TABELLE AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

@@ -14,6 +14,7 @@
 #include "AusReihe.h"
 #include "draw.h"
 #include "Legende.h"
+#include "Tabelle.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -339,7 +340,7 @@ void CMainFrame::OnUpdateAusgabeLegende(CCmdUI *pCmdUI)
 
 void CMainFrame::OnAusgabeDaten()
 {
-	// TODO: Fügen Sie hier Ihren Befehlsbehandlungscode ein.
+	new Tabelle;
 }
 
 

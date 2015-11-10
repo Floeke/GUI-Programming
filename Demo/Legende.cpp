@@ -7,9 +7,10 @@
 #include "afxdialogex.h"
 #include "Daten.h"
 #include "draw.h"
+#include "EinReihe.h"
 
 #define ABSTAND 2
-#define COLORRECTWITH 15
+#define COLORRECTWIDTH 15
 
 
 // Legende-Dialogfeld
@@ -36,6 +37,7 @@ void Legende::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(Legende, CDialog)
 	ON_WM_PAINT()
+	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 
@@ -62,7 +64,7 @@ void Legende::OnPaint()
 			maxWidth = temp.Width();
 	}
 	size.bottom = 4 * ABSTAND + DemoData.get_anz_z()*temp.Height();
-	size.right = 2 * ABSTAND + maxWidth + COLORRECTWITH;
+	size.right = 2 * ABSTAND + maxWidth + COLORRECTWIDTH;
 	CRect pos;
 	GetWindowRect(&pos);
 	size.OffsetRect(pos.TopLeft());
@@ -80,15 +82,15 @@ void Legende::OnPaint()
 	dc.Rectangle(size);
 
 	//draw the legend
-	CRect color = CRect(2 * ABSTAND, 2 * ABSTAND, COLORRECTWITH, COLORRECTWITH);
+	CRect color = CRect(2 * ABSTAND, 2 * ABSTAND, COLORRECTWIDTH, COLORRECTWIDTH);
 	CPoint colorPos = CPoint(2 * ABSTAND, 2 * ABSTAND);
-	CPoint textPos = CPoint(3 * ABSTAND + COLORRECTWITH, 1 * ABSTAND);
+	CPoint textPos = CPoint(3 * ABSTAND + COLORRECTWIDTH, 1 * ABSTAND);
 	for (int index = 0; index < DemoData.get_anz_z(); index++)
 	{
 		CBrush brush(DemoData.get_farbe(index));
 		dc.SelectObject(&brush);
 		dc.Rectangle(&color);
-		color.OffsetRect(0, ABSTAND + COLORRECTWITH);
+		color.OffsetRect(0, ABSTAND + COLORRECTWIDTH);
 		CRect text = CRect(textPos.x, textPos.y, 0, 0);
 		dc.DrawText(DemoData.get_rname(index), &text, DT_CALCRECT);
 		dc.DrawText(DemoData.get_rname(index), &text, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
@@ -98,4 +100,21 @@ void Legende::OnPaint()
 
 	dc.SelectObject(oldBrush);
 	dc.SelectObject(oldPen);
+}
+
+
+void Legende::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	CRect r;
+	GetWindowRect(&r);
+	for (int index = 0; index < DemoData.get_anz_z(); index++)
+	{
+		CRect hit = CRect(0, 2 * ABSTAND + index*(COLORRECTWIDTH + ABSTAND), 200, 2 * ABSTAND + index*(COLORRECTWIDTH + ABSTAND) + COLORRECTWIDTH);
+		if (hit.PtInRect(point))
+		{
+			EinReihe r(NULL, index+1);
+			r.DoModal();
+		}
+	}
+	CDialog::OnLButtonDblClk(nFlags, point);
 }

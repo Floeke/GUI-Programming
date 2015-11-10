@@ -28,8 +28,9 @@
 #define IDD_DATENREIHE_BEARBEITEN       321
 #define IDD_AUSREIHE                    323
 #define IDD_DIALOG_NEUER_WERT           325
-#define IDD_DIALOG1                     327
 #define IDD_LEGENDE                     327
+#define IDD_DIALOG1                     329
+#define IDD_TABELLE                     329
 #define IDC_EIN_NAME                    1000
 #define IDC_EIN_DATENREIHE              1001
 #define IDC_EIN_DATEN                   1002
@@ -83,7 +84,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        329
+#define _APS_NEXT_RESOURCE_VALUE        331
 #define _APS_NEXT_COMMAND_VALUE         32786
 #define _APS_NEXT_CONTROL_VALUE         1034
 #define _APS_NEXT_SYMED_VALUE           310

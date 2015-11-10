@@ -9,7 +9,7 @@ class EinReihe : public CDialog
 	DECLARE_DYNAMIC(EinReihe)
 
 public:
-	EinReihe(CWnd* pParent = NULL);   // Standardkonstruktor
+	EinReihe(CWnd* pParent = NULL, int row_number = 1);   // Standardkonstruktor
 	virtual ~EinReihe();
 
 // Dialogfelddaten
