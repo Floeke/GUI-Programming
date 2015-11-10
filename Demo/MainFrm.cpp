@@ -13,6 +13,7 @@
 #include "EinReihe.h"
 #include "AusReihe.h"
 #include "draw.h"
+#include "Legende.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -326,7 +327,7 @@ void CMainFrame::OnUpdateFileNew(CCmdUI *pCmdUI)
 
 void CMainFrame::OnAusgabeLegende()
 {
-	// TODO: Fügen Sie hier Ihren Befehlsbehandlungscode ein.
+	new Legende;
 }
 
 
