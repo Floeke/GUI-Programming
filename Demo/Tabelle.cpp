@@ -124,7 +124,59 @@ void Tabelle::OnPaint()
 {
 
 	CPaintDC dc(this); // device context for painting
-	int a;
+	CRect upd;
+	CPen red;
+	red.CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+
+	CRect temp;
+	dc.SetBkMode(TRANSPARENT);
+	for (int index = 0; index < DemoData.get_anz_z(); index++)
+	{
+		int left = abstand;
+		int top = 2 * abstand + feldhoehe + (index*feldhoehe);
+		int right = abstand + namenbreite;
+		int bottom = top + feldhoehe;
+		temp = CRect(left, top, right, bottom);
+		dc.Rectangle(temp);
+		dc.DrawText(DemoData.get_rname(index), temp, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	}
+
+	dc.IntersectClipRect(scrollrect); 
+	dc.GetClipBox(upd); //Rect to be repainted
+
+
+	for (int index = 0; index < DemoData.get_anz_s(); index++)
+	{
+		CRect field;
+		field.SetRect(0, 0, feldbreite, feldhoehe);
+
+		//TODO: Spaltenangabe
+
+		field.OffsetRect(feldbreite*index + 2 * abstand + namenbreite, 2*abstand);
+		if (upd.IntersectRect(&scrollrect, &upd))
+		{
+			for (int jndex = 0; jndex < DemoData.get_anz_z(); jndex++)
+			{
+				field.OffsetRect(0, feldhoehe);
+				dc.Rectangle(field);
+				CString text;
+				text.Format(CString("%d"), DemoData.get_wert(jndex, index));
+				if (DemoData.get_wert(jndex, index) < 0)
+				{
+					CPen *oldPen = dc.SelectObject(&red);
+					dc.DrawText(text, field, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+					dc.SelectObject(oldPen);
+				}
+				else
+				{
+					dc.DrawText(text, field, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+				}
+			}
+			
+		}
+	}
+
+	/*int a;
 	dc.FrameRect(scrollrect, &stdbrush.black);
 	for (a = 0; a <= scrollrect.Width(); a += 8)
 	{
@@ -135,5 +187,9 @@ void Tabelle::OnPaint()
 	{
 		dc.MoveTo(scrollrect.left, scrollrect.top + a);
 		dc.LineTo(scrollrect.right, scrollrect.bottom - a);
-	}
+	}*/
+
+
+
+	dc.SelectClipRgn(NULL);
 }
