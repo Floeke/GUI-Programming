@@ -172,10 +172,13 @@ void Tabelle::OnPaint()
 			field.OffsetRect(0, abstand);
 			for (int jndex = 0; jndex < DemoData.get_anz_z(); jndex++)
 			{
-
-
 				field.OffsetRect(0, feldhoehe);
 				dc.Rectangle(field);
+
+				if (selX == index && selY == jndex)
+				{
+					dc.FillRect(field, &stdbrush.gray);
+				}
 
 				text.Format(CString("%d"), DemoData.get_wert(jndex, index));
 				if (DemoData.get_wert(jndex, index) < 0)
@@ -188,6 +191,7 @@ void Tabelle::OnPaint()
 				{
 					dc.DrawText(text, field, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 				}
+
 			}
 
 		}
@@ -214,10 +218,20 @@ void Tabelle::OnLButtonDblClk(UINT nFlags, CPoint point)
 	//Calculate the field that was clicked
 	CPoint pRel = point - scrollrect.TopLeft();
 	pRel.x += actpos;
-	pRel.y -= feldhoehe + abstand;
+	pRel.y -= (feldhoehe + 2*abstand + 1);
 	int x, y;
 	y = pRel.y / (feldhoehe - 1);
 	x = pRel.x / (feldbreite - 1);
+
+	if (x + 1 > DemoData.get_anz_s() || x < 0 || y + 1 > DemoData.get_anz_z() || y < 0)
+	{
+		CDialog::OnLButtonDblClk(nFlags, point);
+		return;
+	}
+
+	selX = x;
+	selY = y;
+	RedrawWindow();
 
 	NeuerWert ein;
 	ein.new_value = DemoData.get_wert(y, x);
@@ -225,14 +239,13 @@ void Tabelle::OnLButtonDblClk(UINT nFlags, CPoint point)
 	{
 		DemoData.set_wert(y, x, ein.new_value);
 		GetParentFrame()->GetActiveDocument()->SetModifiedFlag();
-		RedrawWindow();
 	}
 
+	selX = -1;
+	selY = -1;
+	RedrawWindow();
 	CDialog::OnLButtonDblClk(nFlags, point);
 }
-
-
-
 
 
 void Tabelle::OnRButtonDown(UINT nFlags, CPoint point)
@@ -240,23 +253,33 @@ void Tabelle::OnRButtonDown(UINT nFlags, CPoint point)
 	//Calculate the field that was clicked
 	CPoint pRel = point - scrollrect.TopLeft();
 	pRel.x += actpos;
-	pRel.y -= feldhoehe + abstand;
+	pRel.y -= (feldhoehe + 2 * abstand + 1);
 	int x, y;
 	y = pRel.y / (feldhoehe - 1);
 	x = pRel.x / (feldbreite - 1);
+
+	if (x + 1 > DemoData.get_anz_s() || x < 0 || y + 1 > DemoData.get_anz_z() || y < 0)
+	{
+		CDialog::OnRButtonDown(nFlags, point);
+		return;
+	}
+	selX = x;
+	selY = y;
+	RedrawWindow();
 	int value = DemoData.get_wert(y, x);
 	
 	CMenu popup;
-	popup.CreateMenu();
-	CString string;
+	popup.CreatePopupMenu();
+	CString text;
+	CRect r;
+	GetWindowRect(&r);
 	
-	for (int index = -3; index < 3; index++)
+	for (int index = 0; index < 7; index++)
 	{
-		string.Format(CString("%d"), 1);
-		popup.InsertMenu(index, MF_BYPOSITION | MF_STRING, POPUP_COMMAND_BASE + 3 + index, string);
+		text.Format(CString("%d"), value + index - 3);
+		popup.InsertMenu(index, MF_BYPOSITION | MF_STRING, POPUP_COMMAND_BASE + index, text);
 	}
-	popup.TrackPopupMenu(TPM_RIGHTALIGN | TPM_LEFTBUTTON, x + 300, y + 300, this);
-	
+	popup.TrackPopupMenu(TPM_RIGHTALIGN | TPM_LEFTBUTTON, r.left + point.x, r.top + point.y, this);	
 
 	CDialog::OnRButtonDown(nFlags, point);
 }
@@ -266,6 +289,13 @@ BOOL Tabelle::OnCommand(WPARAM wParam, LPARAM lParam)
 {
 	if (POPUP_COMMAND_BASE <= wParam && POPUP_COMMAND_BASE + 7 > wParam)
 	{
+		int new_value = DemoData.get_wert(selY, selX);
+		new_value += wParam - POPUP_COMMAND_BASE - 3;
+		DemoData.set_wert(selY, selX, new_value);
+		selY = -1;
+		selX = -1;
+		GetParentFrame()->GetActiveDocument()->SetModifiedFlag();
+		RedrawWindow();
 		return 1;
 	}
 

@@ -25,6 +25,8 @@ protected:
 private:
 	int actpos;
 	int maxpos;
+	int selX;
+	int selY;
 	CScrollBar sbar;
 	CRect scrollrect;
 public:
