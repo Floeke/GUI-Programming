@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include "Daten.h"
 #include "draw.h"
+#include "NeuerWert.h"
 
 
 
@@ -76,6 +77,15 @@ void Tabelle::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(Tabelle, CDialog)
 	ON_WM_HSCROLL()
 	ON_WM_PAINT()
+	ON_WM_LBUTTONDBLCLK()
+	ON_WM_RBUTTONDOWN()
+	/*ON_COMMAND(POPUP_COMMAND_BASE, popup0)
+	ON_COMMAND(POPUP_COMMAND_BASE + 1, popup1)
+	ON_COMMAND(POPUP_COMMAND_BASE + 2, popup2)
+	ON_COMMAND(POPUP_COMMAND_BASE + 3, popup3)
+	ON_COMMAND(POPUP_COMMAND_BASE + 4, popup4)
+	ON_COMMAND(POPUP_COMMAND_BASE + 5, popup5)
+	ON_COMMAND(POPUP_COMMAND_BASE + 6, popup6)*/
 END_MESSAGE_MAP()
 
 
@@ -124,9 +134,8 @@ void Tabelle::OnPaint()
 {
 
 	CPaintDC dc(this); // device context for painting
-	CRect upd;
-	CPen red;
-	red.CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+	CRect update;
+	COLORREF oldColor = dc.GetTextColor();
 
 	CRect temp;
 	dc.SetBkMode(TRANSPARENT);
@@ -136,45 +145,54 @@ void Tabelle::OnPaint()
 		int top = 2 * abstand + feldhoehe + (index*feldhoehe);
 		int right = abstand + namenbreite;
 		int bottom = top + feldhoehe;
-		temp = CRect(left, top, right, bottom);
+		temp = CRect(left, top, right, bottom + 1);
 		dc.Rectangle(temp);
 		dc.DrawText(DemoData.get_rname(index), temp, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	}
 
-	dc.IntersectClipRect(scrollrect); 
-	dc.GetClipBox(upd); //Rect to be repainted
+	dc.IntersectClipRect(scrollrect);
+	dc.GetClipBox(update); //Rect to be repainted
 
 
 	for (int index = 0; index < DemoData.get_anz_s(); index++)
 	{
 		CRect field;
-		field.SetRect(0, 0, feldbreite, feldhoehe);
+		field.SetRect(0, 0, feldbreite, feldhoehe + 1);
 
-		//TODO: Spaltenangabe
 
-		field.OffsetRect(feldbreite*index + 2 * abstand + namenbreite, 2*abstand);
-		if (upd.IntersectRect(&scrollrect, &upd))
+		//field.OffsetRect(feldbreite*index + 2 * abstand + namenbreite + 1, abstand + 1); <- Scrolling didn't work with that
+		field.OffsetRect(feldbreite*index + 2 * abstand + namenbreite - actpos - index + 1, abstand + 1);
+		if (update.IntersectRect(&scrollrect, &update))
 		{
+			CString text;
+			text.Format(CString("%d"), index);
+			dc.Rectangle(field);
+			dc.DrawText(text, field, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+			field.OffsetRect(0, abstand);
 			for (int jndex = 0; jndex < DemoData.get_anz_z(); jndex++)
 			{
+
+
 				field.OffsetRect(0, feldhoehe);
 				dc.Rectangle(field);
-				CString text;
+
 				text.Format(CString("%d"), DemoData.get_wert(jndex, index));
 				if (DemoData.get_wert(jndex, index) < 0)
 				{
-					CPen *oldPen = dc.SelectObject(&red);
+					dc.SetTextColor(RGB(255, 0, 0));
 					dc.DrawText(text, field, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-					dc.SelectObject(oldPen);
+					dc.SetTextColor(oldColor);
 				}
 				else
 				{
 					dc.DrawText(text, field, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 				}
 			}
-			
+
 		}
 	}
+
 
 	/*int a;
 	dc.FrameRect(scrollrect, &stdbrush.black);
@@ -187,9 +205,69 @@ void Tabelle::OnPaint()
 	{
 		dc.MoveTo(scrollrect.left, scrollrect.top + a);
 		dc.LineTo(scrollrect.right, scrollrect.bottom - a);
-	}*/
+	}*/
+}
+
+
+void Tabelle::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	//Calculate the field that was clicked
+	CPoint pRel = point - scrollrect.TopLeft();
+	pRel.x += actpos;
+	pRel.y -= feldhoehe + abstand;
+	int x, y;
+	y = pRel.y / (feldhoehe - 1);
+	x = pRel.x / (feldbreite - 1);
+
+	NeuerWert ein;
+	ein.new_value = DemoData.get_wert(y, x);
+	if (ein.DoModal() == IDOK)
+	{
+		DemoData.set_wert(y, x, ein.new_value);
+		GetParentFrame()->GetActiveDocument()->SetModifiedFlag();
+		RedrawWindow();
+	}
+
+	CDialog::OnLButtonDblClk(nFlags, point);
+}
 
 
 
-	dc.SelectClipRgn(NULL);
+
+
+void Tabelle::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	//Calculate the field that was clicked
+	CPoint pRel = point - scrollrect.TopLeft();
+	pRel.x += actpos;
+	pRel.y -= feldhoehe + abstand;
+	int x, y;
+	y = pRel.y / (feldhoehe - 1);
+	x = pRel.x / (feldbreite - 1);
+	int value = DemoData.get_wert(y, x);
+	
+	CMenu popup;
+	popup.CreateMenu();
+	CString string;
+	
+	for (int index = -3; index < 3; index++)
+	{
+		string.Format(CString("%d"), 1);
+		popup.InsertMenu(index, MF_BYPOSITION | MF_STRING, POPUP_COMMAND_BASE + 3 + index, string);
+	}
+	popup.TrackPopupMenu(TPM_RIGHTALIGN | TPM_LEFTBUTTON, x + 300, y + 300, this);
+	
+
+	CDialog::OnRButtonDown(nFlags, point);
+}
+
+
+BOOL Tabelle::OnCommand(WPARAM wParam, LPARAM lParam)
+{
+	if (POPUP_COMMAND_BASE <= wParam && POPUP_COMMAND_BASE + 7 > wParam)
+	{
+		return 1;
+	}
+
+	return CDialog::OnCommand(wParam, lParam);
 }
