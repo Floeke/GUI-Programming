@@ -172,12 +172,15 @@ void Tabelle::OnPaint()
 			field.OffsetRect(0, abstand);
 			for (int jndex = 0; jndex < DemoData.get_anz_z(); jndex++)
 			{
-				field.OffsetRect(0, feldhoehe);
-				dc.Rectangle(field);
+				field.OffsetRect(0, feldhoehe);				
 
 				if (selX == index && selY == jndex)
 				{
 					dc.FillRect(field, &stdbrush.gray);
+				}
+				else 
+				{
+					dc.Rectangle(field);
 				}
 
 				text.Format(CString("%d"), DemoData.get_wert(jndex, index));
@@ -271,15 +274,15 @@ void Tabelle::OnRButtonDown(UINT nFlags, CPoint point)
 	CMenu popup;
 	popup.CreatePopupMenu();
 	CString text;
-	CRect r;
-	GetWindowRect(&r);
+	CPoint cursor;
+	GetCursorPos(&cursor);
 	
 	for (int index = 0; index < 7; index++)
 	{
 		text.Format(CString("%d"), value + index - 3);
 		popup.InsertMenu(index, MF_BYPOSITION | MF_STRING, POPUP_COMMAND_BASE + index, text);
 	}
-	popup.TrackPopupMenu(TPM_RIGHTALIGN | TPM_LEFTBUTTON, r.left + point.x, r.top + point.y, this);	
+	popup.TrackPopupMenu(TPM_RIGHTALIGN | TPM_LEFTBUTTON, cursor.x, cursor.y, this);
 
 	CDialog::OnRButtonDown(nFlags, point);
 }
