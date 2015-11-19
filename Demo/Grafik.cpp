@@ -107,8 +107,6 @@ int Grafik::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		auswahl.AddString(DemoData.get_rname(i));
 	return 0;
 
-
-	return 0;
 }
 
 
