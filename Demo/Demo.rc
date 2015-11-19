@@ -341,6 +341,13 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
 END
 
+IDD_GRAFIK DIALOGEX 0, 0, 311, 178
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -481,6 +488,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 27
     END
+
+    IDD_GRAFIK, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 304
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 171
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -546,6 +561,11 @@ BEGIN
 END
 
 IDD_TABELLE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_GRAFIK AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

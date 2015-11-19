@@ -15,6 +15,7 @@
 #include "draw.h"
 #include "Legende.h"
 #include "Tabelle.h"
+#include "Grafik.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -352,7 +353,7 @@ void CMainFrame::OnUpdateAusgabeDaten(CCmdUI *pCmdUI)
 
 void CMainFrame::OnAusgabeGrafik()
 {
-	// TODO: Fügen Sie hier Ihren Befehlsbehandlungscode ein.
+	new Grafik();
 }
 
 

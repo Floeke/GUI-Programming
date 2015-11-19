@@ -75,6 +75,12 @@
     <ClInclude Include="Tabelle.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Grafik.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="dialogfont.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Demo.cpp">
@@ -126,6 +132,12 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Tabelle.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Grafik.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogfont.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
