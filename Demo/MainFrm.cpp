@@ -353,7 +353,7 @@ void CMainFrame::OnUpdateAusgabeDaten(CCmdUI *pCmdUI)
 
 void CMainFrame::OnAusgabeGrafik()
 {
-	new Grafik();
+	new Grafik;
 }
 
 
