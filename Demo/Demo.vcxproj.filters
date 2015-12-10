@@ -81,6 +81,9 @@
     <ClInclude Include="dialogfont.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="usermsg.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Demo.cpp">
@@ -138,6 +141,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="dialogfont.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="usermsg.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

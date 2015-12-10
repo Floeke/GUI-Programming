@@ -43,7 +43,12 @@ public:
 
 private:
 	char infoflag[MAX_SPALTEN];
+	void change_name();
+	void change_reihe(int z, int name, int farbe);
+	void change_wert(int z, int s);
+	void change_all(int rnamen, int farben, int werte);
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	virtual BOOL OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 };

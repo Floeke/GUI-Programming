@@ -6,6 +6,7 @@
 #include "EinDaten.h"
 #include "afxdialogex.h"
 #include "Daten.h"
+#include "usermsg.h"
 
 
 // EinDaten-Dialogfeld
@@ -140,6 +141,7 @@ void EinDaten::OnBnClickedSpeichern()
 	{
 		DemoData.set_wert(auswahl, nummer - 1, wert);
 		GetParentFrame()->GetActiveDocument()->SetModifiedFlag();
+		update_all(0, 0, 1);
 	}
 
 	scroll_to(nummer + 1);
@@ -154,6 +156,7 @@ void EinDaten::OnBnClickedLoeschen()
 	{
 		DemoData.set_wert(auswahl, nummer - 1, 0);
 		GetParentFrame()->GetActiveDocument()->SetModifiedFlag();
+		update_all(0, 0, 1);
 	}
 
 	scroll_to(nummer + 1);

@@ -8,6 +8,7 @@
 #include "Daten.h"
 #include "draw.h"
 #include "NeuerWert.h"
+#include "usermsg.h"
 
 
 
@@ -303,4 +304,42 @@ BOOL Tabelle::OnCommand(WPARAM wParam, LPARAM lParam)
 	}
 
 	return CDialog::OnCommand(wParam, lParam);
+}
+
+
+void Tabelle::change_name()
+{
+	SetWindowText(DemoData.get_name());
+}
+
+void Tabelle::change_reihe(int z, int name, int farbe)
+{
+	RedrawWindow();
+}
+
+void Tabelle::change_wert(int z, int s)
+{
+	RedrawWindow();
+}
+
+void Tabelle::change_all(int rnamen, int farben, int werte)
+{
+	if (rnamen || werte)
+		RedrawWindow();
+}
+
+
+
+
+BOOL Tabelle::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult)
+{
+	switch (message)
+	{
+	case UPDATE_NAME: change_name(); return 1;
+	case UPDATE_REIHE: change_reihe((int)wParam, (int)lParam & FLAG_NAME, (int)lParam & FLAG_FARBE); return 1;
+	case UPDATE_WERT: change_wert((int)wParam, (int)lParam); return 1;
+	case UPDATE_ALL: change_all((int)lParam & FLAG_NAME, (int)lParam & FLAG_FARBE, (int)lParam & FLAG_WERT); return 1;
+	case CLOSE_ALL: SendMessage(WM_CLOSE); return 1;
+	default: return CDialog::OnWndMsg(message, wParam, lParam, pResult);
+	}
 }

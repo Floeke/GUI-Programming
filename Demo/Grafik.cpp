@@ -9,6 +9,7 @@
 #include "dialogfont.h"
 #include "draw.h"
 #include "EinDaten.h"
+#include "usermsg.h"
 
 
 #define ANZEIGEN 1
@@ -131,7 +132,7 @@ int Grafik::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	auswahl.Create(WS_VISIBLE | WS_CHILD | WS_BORDER | WS_VSCROLL |	LBS_EXTENDEDSEL | LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL, r, this, AUSWAHL);
 	auswahl.SetFont(&dfnt.bold);
 	for (i = 0; i < DemoData.get_anz_z(); i++)
-		auswahl.AddString(DemoData.get_rname(i));
+		auswahl.InsertString(i, DemoData.get_rname(i));
 
 	von_value = 0;
 	bis_value = DemoData.get_anz_s();
@@ -355,4 +356,64 @@ void Grafik::OnPaint()
 	}
 
 
+}
+
+void Grafik::change_name()
+{
+	SetWindowText(DemoData.get_name());
+}
+
+void Grafik::change_reihe(int z, int name, int farbe)
+{
+	auswahl.DeleteString(z);
+	auswahl.InsertString(z, DemoData.get_rname(z));
+	for (int i = 0; i < DemoData.get_anz_z(); i++)
+	{
+		auswahl.SetSel(i, isSelected(i));
+	}
+
+	if (farbe)
+	{
+		RedrawWindow();
+	}
+}
+
+void Grafik::change_wert(int z, int s)
+{
+	if (isSelected(z))
+	{
+		RedrawWindow();
+	}
+}
+
+void Grafik::change_all(int rnamen, int farben, int werte)
+{
+	if (rnamen)
+	{
+		for (int i = 0; i < DemoData.get_anz_z(); i++)
+		{
+			auswahl.DeleteString(i);
+			auswahl.InsertString(i, DemoData.get_rname(i));
+			auswahl.SetSel(i, isSelected(i));
+		}
+	}	
+
+	if (werte)
+	{
+		RedrawWindow();
+	}
+}
+
+
+BOOL Grafik::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult)
+{
+	switch (message)
+	{
+	case UPDATE_NAME: change_name(); return 1;
+	case UPDATE_REIHE: change_reihe((int) wParam, (int)lParam & FLAG_NAME, (int)lParam & FLAG_FARBE); return 1;
+	case UPDATE_WERT: change_wert((int)wParam, (int)lParam); return 1;
+	case UPDATE_ALL: change_all((int)lParam & FLAG_NAME, (int)lParam & FLAG_FARBE, (int)lParam & FLAG_WERT); return 1;
+	case CLOSE_ALL: SendMessage(WM_CLOSE); return 1;
+	default: return CDialog::OnWndMsg(message, wParam, lParam, pResult);
+	}
 }

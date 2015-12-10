@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include "Daten.h"
 #include "draw.h"
+#include "usermsg.h"
 
 
 // EinReihe-Dialogfeld
@@ -62,6 +63,7 @@ void EinReihe::OnBnClickedSpeichern()
 {
 	UpdateData(TRUE);
 	DemoData.set_rname(datenreihe -1, name);
+	update_all(1, 1, 0);
 }
 
 
@@ -75,6 +77,7 @@ void EinReihe::OnBnClickedChange()
 		stdbrush.setall();
 		stdpen.setall();
 		GetParentFrame()->GetActiveDocument()->SetModifiedFlag();
+		update_all(0, 1, 0);
 	}
 }
 

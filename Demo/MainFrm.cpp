@@ -16,6 +16,7 @@
 #include "Legende.h"
 #include "Tabelle.h"
 #include "Grafik.h"
+#include "usermsg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -222,6 +223,7 @@ void CMainFrame::OnEingabeName()
 	if (n.DoModal() == IDOK)
 	{
 		DemoData.set_name(n.datenname);
+		update_name();
 	}
 }
 
@@ -236,6 +238,7 @@ void CMainFrame::OnEingabeDatenreihe()
 {
 	EinReihe er;
 	er.DoModal();
+	update_all(1, 0, 0);
 }
 
 
@@ -269,6 +272,7 @@ void CMainFrame::OnEingabeTestdatren()
 			stdbrush.setall();
 			stdpen.setall();
 		}
+		update_all(td.check_name, td.check_farben, td.check_werte);
 	}
 }
 
@@ -317,6 +321,7 @@ void CMainFrame::OnFileNew()
 		stdbrush.setall();
 		stdpen.setall();
 		GetActiveDocument()->SetModifiedFlag();
+		close_all();
 	}
 }
 

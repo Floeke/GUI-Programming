@@ -44,6 +44,10 @@ private:
 	CSize value_height;
 	CSize drawable_width;
 	CSize value_width;
+	void change_name();
+	void change_reihe(int z, int name, int farbe);
+	void change_wert(int z, int s);
+	void change_all(int rnamen, int farben, int werte);
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -52,4 +56,5 @@ public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnPaint();
+	virtual BOOL OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 };

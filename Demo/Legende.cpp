@@ -8,6 +8,7 @@
 #include "Daten.h"
 #include "draw.h"
 #include "EinReihe.h"
+#include "usermsg.h"
 
 #define ABSTAND 2
 #define COLORRECTWIDTH 15
@@ -117,4 +118,45 @@ void Legende::OnLButtonDblClk(UINT nFlags, CPoint point)
 		}
 	}
 	CDialog::OnLButtonDblClk(nFlags, point);
+}
+
+
+
+
+
+void Legende::change_name()
+{
+	//Nothing to do
+}
+
+void Legende::change_reihe(int z, int name, int farbe)
+{
+	RedrawWindow();
+}
+
+void Legende::change_wert(int z, int s)
+{
+	//Nothing to do
+}
+
+void Legende::change_all(int rnamen, int farben, int werte)
+{
+	if(rnamen || farben)
+		RedrawWindow();
+}
+
+
+
+
+BOOL Legende::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult)
+{
+	switch (message)
+	{
+	case UPDATE_NAME: change_name(); return 1;
+	case UPDATE_REIHE: change_reihe((int)wParam, (int)lParam & FLAG_NAME, (int)lParam & FLAG_FARBE); return 1;
+	case UPDATE_WERT: change_wert((int)wParam, (int)lParam); return 1;
+	case UPDATE_ALL: change_all((int)lParam & FLAG_NAME, (int)lParam & FLAG_FARBE, (int)lParam & FLAG_WERT); return 1;
+	case CLOSE_ALL: SendMessage(WM_CLOSE); return 1;
+	default: return CDialog::OnWndMsg(message, wParam, lParam, pResult);
+	}
 }

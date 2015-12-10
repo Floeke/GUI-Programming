@@ -8,6 +8,7 @@
 #include "Daten.h"
 #include "draw.h"
 #include "NeuerWert.h"
+#include "usermsg.h"
 
 
 // AusReihe-Dialogfeld
@@ -350,4 +351,71 @@ void AusReihe::OnLButtonDblClk(UINT nFlags, CPoint point)
 	
 
 	CDialog::OnLButtonDblClk(nFlags, point);
+}
+
+
+
+
+
+void AusReihe::change_name()
+{
+	SetWindowText(DemoData.get_name());
+}
+
+void AusReihe::change_reihe(int z, int name, int farbe)
+{
+	if (name)
+	{
+		m_reihe.Clear();
+
+		for (int i = 0; i < DemoData.get_anz_z(); i++)
+			m_reihe.InsertString(i, DemoData.get_rname(i));
+	}
+	
+	if (farbe)
+	{
+		RedrawWindow();
+	}
+	
+}
+
+void AusReihe::change_wert(int z, int s)
+{
+	if (z == m_selection)
+		RedrawWindow();
+}
+
+void AusReihe::change_all(int rnamen, int farben, int werte)
+{
+	if (rnamen)
+	{
+
+		for (int i = 0; i < DemoData.get_anz_z(); i++)
+		{
+			m_reihe.DeleteString(i);
+			m_reihe.InsertString(i, DemoData.get_rname(i));
+		}
+		m_reihe.SetCurSel(m_selection);
+	}
+
+	if (farben || werte)
+	{
+		RedrawWindow();
+	}
+}
+
+
+
+
+BOOL AusReihe::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult)
+{
+	switch (message)
+	{
+	case UPDATE_NAME: change_name(); return 1;
+	case UPDATE_REIHE: change_reihe((int)wParam, (int)lParam & FLAG_NAME, (int)lParam & FLAG_FARBE); return 1;
+	case UPDATE_WERT: change_wert((int)wParam, (int)lParam); return 1;
+	case UPDATE_ALL: change_all((int)lParam & FLAG_NAME, (int)lParam & FLAG_FARBE, (int)lParam & FLAG_WERT); return 1;
+	case CLOSE_ALL: SendMessage(WM_CLOSE); return 1;
+	default: return CDialog::OnWndMsg(message, wParam, lParam, pResult);
+	}
 }
