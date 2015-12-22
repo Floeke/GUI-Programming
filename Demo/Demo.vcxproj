@@ -189,6 +189,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animation.h" />
     <ClInclude Include="AusReihe.h" />
     <ClInclude Include="Daten.h" />
     <ClInclude Include="DatenNeu.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="usermsg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="animation.cpp" />
     <ClCompile Include="AusReihe.cpp" />
     <ClCompile Include="Daten.cpp" />
     <ClCompile Include="DatenNeu.cpp" />

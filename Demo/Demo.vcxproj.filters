@@ -84,6 +84,9 @@
     <ClInclude Include="usermsg.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="animation.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Demo.cpp">
@@ -144,6 +147,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="usermsg.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="animation.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

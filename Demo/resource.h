@@ -31,8 +31,8 @@
 #define IDD_LEGENDE                     327
 #define IDD_DIALOG1                     329
 #define IDD_TABELLE                     329
-#define IDD_DIALOG2                     331
 #define IDD_GRAFIK                      331
+#define IDD_DIALOG_ANIMATION            333
 #define IDC_EIN_NAME                    1000
 #define IDC_EIN_DATENREIHE              1001
 #define IDC_EIN_DATEN                   1002
@@ -66,6 +66,12 @@
 #define IDC_YRASTER                     1031
 #define IDC_DIAGRAMM                    1032
 #define IDC_NEUER_WERT                  1033
+#define IDC_PROGRESS                    1034
+#define IDC_SPALTE                      1035
+#define IDC_SPEED                       1036
+#define IDC_START                       1037
+#define IDC_                            1038
+#define IDC_ANIMATION                   1038
 #define ID_EINGABE_NAME                 32771
 #define ID_EINGABE_DATENREIHE           32772
 #define ID_EINGABE_DATEN                32773
@@ -87,9 +93,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        333
+#define _APS_NEXT_RESOURCE_VALUE        335
 #define _APS_NEXT_COMMAND_VALUE         32800
-#define _APS_NEXT_CONTROL_VALUE         1034
+#define _APS_NEXT_CONTROL_VALUE         1039
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

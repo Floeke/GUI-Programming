@@ -17,6 +17,7 @@
 #include "Tabelle.h"
 #include "Grafik.h"
 #include "usermsg.h"
+#include "animation.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -370,7 +371,7 @@ void CMainFrame::OnUpdateAusgabeGrafik(CCmdUI *pCmdUI)
 
 void CMainFrame::OnAusgabeAnimation()
 {
-	// TODO: Fügen Sie hier Ihren Befehlsbehandlungscode ein.
+	new animation;
 }
 
 
